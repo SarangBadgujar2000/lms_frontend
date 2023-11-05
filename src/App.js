@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Signup from './components/Signup';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Login from './components/Login';
+import DashboardLayout from './layouts/DashboardLayout';
+import Dashboard from './components/Dashboard';
+import { getSession } from './utils/sessionMethods';
+import EditCourse from './components/EditCourse';
+import CourseVideos from './components/CourseVideos';
+import MyCourses from './components/MyCourses';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   return (
+    <Routes>
+      <Route path='/signup' element={getSession('isAuthenticated')? <Navigate to='/' /> :<Signup />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/' element={<DashboardLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path='editCourse/:id' element={<EditCourse />} />
+        <Route path='courseVideos/:course_id' element={<CourseVideos />} />
+        <Route path='myCourses' element={<MyCourses />} />
+      </Route>
+    </Routes>
   );
 }
 
